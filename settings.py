@@ -90,11 +90,13 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
 
 # Settings for modul "faq" ->
-
+INSTALLED_APPS = INSTALLED_APPS + (
+    'faq',
+    )
 # Settings for modul "faq" <-
