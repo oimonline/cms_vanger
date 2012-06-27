@@ -1,4 +1,7 @@
 # Django settings for cms_vanger project.
+import os.path
+
+CURRENT_PATH = os.path.abspath('.')
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -78,9 +81,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'cms_vanger.urls'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    CURRENT_PATH + '/templates',
 )
 
 INSTALLED_APPS = (
@@ -96,7 +97,13 @@ INSTALLED_APPS = (
 )
 
 # Settings for modul "faq" ->
+
 INSTALLED_APPS = INSTALLED_APPS + (
     'faq',
     )
+
+TEMPLATE_DIRS = TEMPLATE_DIRS + (
+    CURRENT_PATH + '/faq/templates',
+)
+
 # Settings for modul "faq" <-

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+Вопрос &mdash; Ответ
+{% endblock %}
+
+{% block head %}
+<meta content="Вопрос-Ответ" name="keywords">
+<meta content="Вопрос-Ответ" name="description">
+{% endblock %}
+
+{% block head_title %}
+Вопрос &mdash; Ответ
+{% endblock %}
+
+{% block way %}
+<a href='/'>Главная</a> &rarr; <span>Вопрос &mdash; Ответ</span>
+{% endblock %}
+
+{% block content %}
+<div id='faq'>
+    {% for question in questions %}
+    <div class='element'>
+        <h3 class='question'><a href='#'>{{ question.text }}</a></h3>
+        {% for answer in question.answer_set.all %}
+        <div class='answer'>
+            {{ answer.text|safe }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $( ".faq" ).accordion({
+        active: {{ number_action }},
+    });
+});
+</script>
+{% endblock %}
