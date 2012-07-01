@@ -1,30 +1,18 @@
-{% extends "base.html" %}
-
-{% block title %}
-Вопрос &mdash; Ответ
-{% endblock %}
-
-{% block head %}
-<meta content="Вопрос-Ответ" name="keywords">
-<meta content="Вопрос-Ответ" name="description">
-{% endblock %}
-
-{% block head_title %}
-Вопрос &mdash; Ответ
-{% endblock %}
-
-{% block way %}
-<a href='/'>Главная</a> &rarr; <span>Вопрос &mdash; Ответ</span>
-{% endblock %}
+{% include "faq_base.html" %}
 
 {% block content %}
-<div id='faq'>
+<div>
     {% for question in questions %}
-    <div class='element'>
-        <h3 class='question'><a href='#'>{{ question.text }}</a></h3>
+    <div>
+        <h3><a href='#'>{{ question.question_text }}</a></h3>
+        {% for tag in question.tags.all %}
+        <div>
+            {{ tag.tag_text|safe }}
+        </div>
+        {% endfor %}
         {% for answer in question.answer_set.all %}
-        <div class='answer'>
-            {{ answer.text|safe }}
+        <div>
+            {{ answer.answer_text|safe }}
         </div>
         {% endfor %}
     </div>
@@ -32,11 +20,9 @@
 
 </div>
 
-<script type="text/javascript">
-$(document).ready(function() {
-    $( ".faq" ).accordion({
-        active: {{ number_action }},
-    });
-});
-</script>
+<form action="/faq/" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Отправить вопрос" />
+</form>
 {% endblock %}

@@ -1,31 +1,68 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from django.db import models
 from datetime import datetime
 
-# Create your models here.
-
 class Tag(models.Model):
-    text = models.CharField(max_length=50)
+    tag_text = models.CharField(
+        max_length=64,
+        verbose_name=u'метка'
+    )
+
+    slug = models.SlugField()
 
     def __unicode__(self):
-        return self.text
+        return self.tag_text
 
 class Question(models.Model):
-    text = models.TextField()
-    author = models.CharField(max_length=50)
-    created = models.DateTimeField()
-    tag = models.ForeignKey(Tag)
+    question_text = models.TextField(
+        verbose_name=u'вопрос'
+    )
 
-    #def __init__(self):
-    #    self.created = datetime.now()
+    author_name = models.CharField(
+        max_length=128,
+        verbose_name=u'имя автора вопроса'
+    )
+
+    author_email = models.EmailField(
+        verbose_name=u'электронная почта автора вопроса'
+    )
+
+    created = models.DateTimeField(
+        default=datetime.now(),
+        verbose_name=u'создан'
+    )
+
+    tags = models.ManyToManyField(
+        Tag,
+        blank=True,
+        null=True,
+        verbose_name=u'метка'
+    )
 
     def __unicode__(self):
-        return self.text
+        return self.question_text
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question)
-    text = models.TextField()
-    author = models.CharField(max_length=50)
-    created = models.DateTimeField()
+    question = models.ForeignKey(
+        Question,
+        verbose_name=u'вопрос'
+    )
+
+    answer_text = models.TextField(
+        verbose_name=u'ответ'
+    )
+
+    author_name = models.CharField(
+        max_length=128,
+        verbose_name=u'автор ответа'
+    )
+
+    created = models.DateTimeField(
+        default=datetime.now(),
+        verbose_name=u'создан'
+    )
 
     def __unicode__(self):
-        return self.text
+        return self.answer_text

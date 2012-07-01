@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-    (r'^faq/$', include('cms_vanger.faq.urls')),
+    (r'^faq/', include('faq.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
