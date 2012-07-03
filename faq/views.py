@@ -2,29 +2,28 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
+from django.db.models import F
 
 from faq.models import *
 from faq.forms import *
 
 def index(request):
+    
     if request.method == 'POST':
-        form = QuestionForm(request.POST)
+        question = Question()
+        form = QuestionForm(request.POST, instance=question)
         if form.is_valid():
-            question = Question()
-            question.question_text = form.cleaned_data['question_text']
-            question.author_name = form.cleaned_data['author_name']
-            question.author_email = form.cleaned_data['author_email']
-            question.save()
+            form.save()
 
-            for tag in form.cleaned_data['tags']:
-                question.tag_set.add(tag)
+            # TODO: add here email sending
 
 
             return HttpResponseRedirect(reverse('faq.views.question_submited'))
     else:
         form = QuestionForm()
 
-    questions = Question.objects.all()
+    # Get only questions which have at least one answer
+    questions = Question.objects.exclude(answer__question__isnull=True)
 
     return render_to_response('index.html', {
         'form': form,
